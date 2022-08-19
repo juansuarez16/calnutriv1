@@ -84,20 +84,7 @@ const CalculoMenu = () => {
     let calcugruposarr = [];
     let dif = false;
    
-    // if (calcugrupos.length > 0) {       
-    //   let aux = [...calcugrupos];      
-    //   console.log(calcugruposarr.length);
-      
-    //   aux.map((element,index) =>{
-    //       if (element.alimento === props.alimento && element.grupo === e.target.name && element.preparacion === prepa) {
-    //         console.log('borro');
-    //         console.log(index);
-    //         aux.slice(index);             
-    //       }
-    //   })
-    //   console.log(aux);
-    //   setCalcugrupos(aux);
-    // }
+  
     
     function llenargrupos(data) {
       data.map((elementprepa) => {

@@ -27,7 +27,7 @@ const Departamentos = () => {
     res();    
   }, [stateModal]);
 
-  console.log(data);
+ 
   
   return (
     <>

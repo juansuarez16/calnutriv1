@@ -27,7 +27,7 @@ const Categoria = () => {
     res();    
   }, [stateModal]);
 
-  console.log(data);
+
   
   return (
     <>

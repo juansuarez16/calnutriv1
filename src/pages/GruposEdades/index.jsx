@@ -20,7 +20,7 @@ const GruposEdades = () => {
     res();
   }, [stateModal,stateDelete]);
 
-  console.log(data);
+
 
   return (
     <>

@@ -10,7 +10,7 @@ import  ModalCalculo  from './Modal';
 
 const TotalCalculo = (params) => {
     const {data} = useParams();
-  console.log(params);
+
     const [datai, setDatai] = useState([]);
     const [dataRe, setDataRe] = useState([]);
     const [statePrint, setstatePrint] = useState(false);
@@ -79,8 +79,7 @@ const TotalCalculo = (params) => {
       return nutrientevalue.indexOf(item) === index;
     }) 
      let resultAporte=[];
-     console.log(resultvalue);
-     console.log(dataRe);
+     
      let indexB=1;
 if (resultvalue.length>0) {      
   for (let index = 0; index < resultvalue.length; index++) {
@@ -88,7 +87,7 @@ if (resultvalue.length>0) {
     sum=0;
     for (let indexP = 0; indexP < params.calculo.length; indexP++) {
       if (resultvalue[index]===params.calculo[indexP].nutriente ) {
-        console.log(params.calculo[indexP].nutriente);
+       
         sum += params.calculo[indexP].calculo ? params.calculo[indexP].calculo : Number(params.calculo[indexP].aporte)
       }
     }
@@ -96,7 +95,7 @@ if (resultvalue.length>0) {
    }  
 }
 
-console.log(nutrientesAporteCl);
+
 let recomendaciones=[];
 let totalCalculo=[];
 for (let index = 0; index < complemento.length; index++) {
@@ -109,7 +108,7 @@ for (let index = 0; index < complemento.length; index++) {
 
 
 let grupoEdadesTarget=[];
-console.log(complemento);
+
 for (let index = 0; index < complemento.length; index++) {  
   if (complemento[index].mod_nombre===datai[0].mod_nombre) {    
     grupoEdadesTarget.push(complemento[index].recomendaciones);
@@ -125,9 +124,6 @@ for (let index = 0; index < complemento.length; index++) {
 let resultGrupo =  grupoEdadesTarget.filter((item,index)=>{     
   return grupoEdadesTarget.indexOf(item) === index;
 }); 
-
-console.log(resultGrupo);
-
 
 let valorpornutri=[];
 let resultadoTotal=[];
@@ -236,7 +232,7 @@ params.grupoCal.push(resultadoTotal);
         resultvalue
       );
       let total=[]
-     console.log(totalNutricionGrupos);
+     
    complemento.map((element)=>{
     let nutriAux={}    
     totalNutricionGrupos.map((element2)=>{       
@@ -254,7 +250,7 @@ params.grupoCal.push(resultadoTotal);
     total.push(nutriAux);
     
    })
-   console.log(total);
+  
 let targetGrupo = [];
    resultGrupo.map((grupResult)=>{
     let uniq = [];
@@ -271,7 +267,7 @@ let targetGrupo = [];
       targetGrupo.push({comple:comple,grupo:grupo,nutriente:uniq})
     }
    })
-   console.log(targetGrupo);
+   
   return (
     <>
     < FcPrint style={{cursor:'pointer',display:'flex'}} size="2rem"  onClick={()=>setstatePrint(true)}/>
