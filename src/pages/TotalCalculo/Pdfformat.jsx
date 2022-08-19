@@ -40,8 +40,8 @@ const Pdfformat = () => {
               <div className="col d-flex justify-content-around">
                 <h1>Analisis Nutricional</h1>
                 <img
-                  src="https://github.com/jhorman10/min-edu-pf-format/blob/main/logominieduc.PNG?raw=true"
-                  alt=""
+                  src="src/img/logominieduc.png"
+                  alt="Alcaldia de medellín"
                 />
               </div>
               <div className="row text-center mt-4">
