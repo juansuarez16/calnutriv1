@@ -1,5 +1,5 @@
 import React from 'react';
-
+import logominEdu from '../../img/logominieduc.png'
 const Pdfformat = () => {
   return (
     <>
@@ -40,7 +40,7 @@ const Pdfformat = () => {
               <div className="col d-flex justify-content-around">
                 <h1>Analisis Nutricional</h1>
                 <img
-                  src="src/img/logominieduc.png"
+                  src={logominEdu}
                   alt="Alcaldia de medellín"
                 />
               </div>
