@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import  ReactDOMServer  from 'react-dom/server';
 import { FcPrint } from "react-icons/fc";
 import api from "./api";
-import {jsPDF} from 'jspdf';
+
 import html2canvas from 'html2canvas';
 import Pdfformat from './Pdfformat';
 import  ModalCalculo  from './Modal';
@@ -140,17 +140,7 @@ params.grupoCal.push(resultadoTotal);
            
       
       
-      const doc = new jsPDF();
-
-      const jsPdfGenerator = () => {
-        const input = document.getElementById('divToPrint');
-        html2canvas(input).then((canvas) => {
-          const imgData = canvas.toDataURL('image/png');
           
-          doc.addImage(imgData, 'JPEG', 0, 0, 200, 300);
-          doc.save('test.pdf');
-        });
-      };      
       
       let totalNutricionGrupos = [];
 
