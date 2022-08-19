@@ -8,7 +8,8 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 
 const Recomendaciones = () => {
-  const [data, setData] = useState(Array);
+  const [data, setData] = useState([]);
+  const [deletedata, setDeleteData] = useState([]);
   const [stateModal, setstateModal] = useState(false);
   const [stateNutriente, setstateNutriente] = useState(false);
   const [stateEdit, setstateEdit] = useState(false);
@@ -21,11 +22,11 @@ const Recomendaciones = () => {
     const dataA = await api("http://localhost:3000/getRecomendacionesCal");
     setData(dataA.data.res);
   };
-  
   useEffect(() => {
     res();
-    
-  }, [stateModal]);
+  }, []);
+
+  
 
   return (
     <>
@@ -50,6 +51,7 @@ const Recomendaciones = () => {
               <td>{element.Norma}</td>
               <td>
                 <FcPlus
+                style={{cursor:'pointer'}}
                   size={"2rem"}
                   onClick={() => {
                     setstateNutriente(!stateNutriente);
@@ -58,6 +60,7 @@ const Recomendaciones = () => {
                 />
                 {"  "}
                 <FcFinePrint
+                   style={{cursor:'pointer'}}
                     size="2rem"
                     className="click"
                     onClick={() => {
@@ -70,6 +73,7 @@ const Recomendaciones = () => {
                   />
                    {"  "}
                 <FiEdit3
+                style={{cursor:'pointer'}}
                   color="purple"
                   size={"2rem"}
                   onClick={() => setstateEdit(!stateEdit)}
@@ -77,9 +81,12 @@ const Recomendaciones = () => {
                 />
                 {"  "}
                 <RiDeleteBin5Line
+                style={{cursor:'pointer'}}
                   size={"2rem"}
                   color="red"
-                  onClick={() => setstateDelete(!stateDelete)}
+                  onClick={() => {setstateDelete(!stateDelete);
+                              setDeleteData(element)
+                }}
                 />
               </td>
             </tr>
@@ -96,6 +103,8 @@ const Recomendaciones = () => {
       <Createmodal
         data={data}
         state={stateModal}
+        deletedata={deletedata}
+        setDeleteData={setDeleteData}
         setState={setstateModal}
         stateEdit={stateEdit}
         setstateEdit={setstateEdit}

@@ -11,7 +11,7 @@ import {
 
 
 const Preparaciones = () => {
-  const [data, setData] = useState(Array);
+  const [data, setData] = useState([]);
   const [stateModal,setstateModal]=useState(false);
   const [stateEdit,setstateEdit]=useState(false);
   const [stateDelete,setstateDelete]=useState(false);
@@ -29,7 +29,7 @@ const Preparaciones = () => {
 
  
 
-  console.log(data);
+
   
   
   

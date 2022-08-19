@@ -95,7 +95,7 @@ const Menus = () => {
                   color={"red"}
                   onClick={() => {
                     setstateDelete(!stateDelete)
-                    setDatadelete()
+                   
                   }}
                 />
               </td>

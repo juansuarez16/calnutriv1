@@ -3,22 +3,14 @@ import api from "./api";
 import Createmodal from "./components/modal";
 import "./Alimentos.css";
 import M from "materialize-css";
-import {
-  Container,
-  Card,
-  ListGroup,
-  ListGroupItem,
-  CardGroup,
-  Row,
-  Col,
+import {  
   Table
 } from "react-bootstrap";
 import { makeStyles } from "@material-ui/core/styles";
 import { FcPlus, FcFinePrint } from "react-icons/fc";
 import { FiEdit3, FiDelete } from "react-icons/fi";
 import { AiFillFileAdd } from "react-icons/ai";
-import { Grid, Box } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Alimentos = () => {
-  const [data, setData] = useState(Array);
+  const [data, setData] = useState([]);
   const [stateModal, setstateModal] = useState(false);
   const [dateEditPre, setDateEditPre] = useState({});
   const [addnutri, setAddNutri] = useState({});
@@ -50,14 +42,18 @@ const Alimentos = () => {
   };
   useEffect(() => {
     res();
+  }, []);
+  useEffect(() => {
+    res();
   }, [stateModal, stateEdit,stateDelete]);
+ 
   useEffect(() => {
     let elems = document.querySelectorAll(".fixed-action-btn");
     M.FloatingActionButton.init(elems, {
       toolbarEnabled: true,
     });
   }, []);
-  console.log(data);
+  
   const classes = useStyles();
 
   return (
@@ -129,7 +125,8 @@ const Alimentos = () => {
                     className="click"
                     size="2rem"
                     color="red"
-                    onClick={() => {setstateDelete(!stateDelete);
+                    onClick={() => {
+                      setstateDelete(!stateDelete);
                       setDateDeletePre({
                         dataId: element.id,
                         dataNombre: element.nombre,
@@ -158,15 +155,6 @@ const Alimentos = () => {
         setDateDeletePre={ setDateDeletePre}
         addnutri={addnutri}
       />
-       <select
-            id= "componente"
-            name= "componente"
-            
-                     
-            >
-              <option value={-1}>SELECCIONE</option>
-            
-            </select> 
     </>
   );
 };

@@ -6,7 +6,7 @@ import { FiEdit3, FiDelete } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 const OrdenMenu = () => {
-  const [data, setData] = useState(Array);
+  const [data, setData] = useState([]);
   const [stateModal, setstateModal] = useState(false);
   const [stateNutriente, setstateNutriente] = useState(false);
   const [stateDetalleNut, setstateDetalleNut] = useState(false);

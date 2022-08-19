@@ -22,16 +22,16 @@ import { FcPlus, FcFinePrint,FcPrint } from "react-icons/fc";
 import { FiEdit3, FiDelete } from "react-icons/fi";
 import { AiFillFileAdd } from "react-icons/ai";
 import TotalCalculo from "../TotalCalculo";
-
+let valorbase = 0;
 const CalculoMenu = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [data, setData] = useState(Array);
+  const [data, setData] = useState([]);
   const [, setCalculo] = useState([]);
   const [status, setStatus] = useState(false);
-  const [grupo, setGrupos] = useState(Array);
-  const [datai, setDatai] = useState(Array);
-  const [dataRe, setDataRe] = useState(Array);
+  const [grupo, setGrupos] = useState([]);
+  const [datai, setDatai] = useState([]);
+  const [dataRe, setDataRe] = useState([]);
   const [calcugrupos, setCalcugrupos] = useState([]);
 
   const res = async () => {
@@ -43,7 +43,7 @@ const CalculoMenu = () => {
     const dataA = await api(`http://localhost:3000/getMenuCalid?id=${id}`);
     setDatai(dataA.data.res);
   };
-  const [grupoEdades, setGrupoEdades] = useState(Array);
+  const [grupoEdades, setGrupoEdades] = useState([]);
   const resReco = async () => {
     const dataA = await api(`http://localhost:3000/getRecoNutriRela`);
     setDataRe(dataA.data.res);
@@ -77,94 +77,94 @@ const CalculoMenu = () => {
     objresultgrup.push({ grupo: resultGrupo[index] });
   }
 
-  console.log(objresultgrup);
   
   let indiceCal=0;
+  
   function handleCalculo(e, props, prepa) {
     let calcugruposarr = [];
     let dif = false;
-    console.log(props);
-    console.log(prepa);
-    if (calcugrupos.length > 0) {       
-      let aux = [...calcugrupos]
-      setCalcugrupos([]);
-      console.log(calcugruposarr.length);
+   
+    // if (calcugrupos.length > 0) {       
+    //   let aux = [...calcugrupos];      
+    //   console.log(calcugruposarr.length);
       
-      aux.map((element,index) =>{
-          if (element.alimento === props.alimento && element.grupo === e.target.name && element.preparacion === prepa) {
-            console.log('borro');
-            console.log(index);
-            aux.slice(index);             
-          }
-      })
-      console.log(aux);
-      setCalcugrupos(aux);
-    }
+    //   aux.map((element,index) =>{
+    //       if (element.alimento === props.alimento && element.grupo === e.target.name && element.preparacion === prepa) {
+    //         console.log('borro');
+    //         console.log(index);
+    //         aux.slice(index);             
+    //       }
+    //   })
+    //   console.log(aux);
+    //   setCalcugrupos(aux);
+    // }
     
-    data.map((elementprepa) => {
-      elementprepa.alimento.map((elementali) => {
-        if (elementali.alimento === props.alimento) {
-          elementali.nutriente.map((elementnutri) => {
-            elementnutri.grupos.map((elementgrupo) => {
-              if (elementgrupo.grupo === e.target.name) {
-                let calculo = e.target.value * Number(elementnutri.aporte);  
-                let auxArr = {
-                  id: Number(e.target.id),
-                  alimento: elementali.alimento,
-                  grupo: e.target.name,
-                  calculo: calculo,
-                  preparacion: elementprepa.preparacion,
-                  nutriente: elementnutri.nutriente,
-                }
-                if (calcugrupos.length === 0) {
-                  calcugruposarr.push(auxArr);   
-                  
-                }else{
-                  if (calcugrupos.calculo === auxArr.calculo && calcugrupos.nutriente === auxArr.nutriente) {
-                    auxArr.calculo = calcugrupos.calculo + calculo
+    function llenargrupos(data) {
+      data.map((elementprepa) => {
+        elementprepa.alimento.map((elementali) => {
+          if (elementali.alimento === props.alimento) {
+            elementali.nutriente.map((elementnutri) => {
+              elementnutri.grupos && elementnutri.grupos.map((elementgrupo) => {
+                if (elementgrupo.grupo === e.target.name) {
+                  let calculo = e.target.value * Number(elementnutri.aporte);
+                  let auxArr = {
+                    id: Number(e.target.id),
+                    alimento: elementali.alimento,
+                    grupo: e.target.name,
+                    calculo: calculo,
+                    preparacion: elementprepa.preparacion,
+                    nutriente: elementnutri.nutriente,
+                    aporte:elementnutri.aporte
                   }
-                  calcugrupos.map((element)=>{
-                    console.log(element.grupo,auxArr.grupo );
-                    if (element.grupo !== auxArr.grupo ) {
-                      dif=true;
-                    }else{
-                      dif=false;
-                    }
-                  })
+                  calcugruposarr.push(auxArr); 
                 }
-                            
-                localStorage.setItem(`calculo-${indiceCal}`,JSON.stringify(auxArr)); 
-                indiceCal++;
-              }
+              });
             });
-          });
-        }
+          }
+        });
       });
-    });
-    console.log(dif);
-    if (dif) {
-      let aux=[...calcugrupos]
-      aux.map((element)=>{
-        setCalcugrupos(element); 
-      })
-     }
-    console.log(calcugruposarr);
-    setCalcugrupos(calcugruposarr);
-    console.log(calcugrupos);
+      return calcugruposarr;
+    }   
+    if (calcugrupos.length === 0) {        
+      setCalcugrupos(llenargrupos(data));
+    } else if(calcugrupos.length > 0){ 
+      let auxarr = [...calcugrupos];
+      let info = false;    
+      auxarr.map((grupoCal)=>{
+       
+        if (grupoCal.grupo === e.target.name && grupoCal.preparacion === prepa && grupoCal.alimento === props.alimento) {
+          let calculo = grupoCal.aporte * e.target.value;
+          grupoCal.calculo = calculo;
+          info =false
+        }else{
+          info= true
+        }
+      })      
+      if (info ) {
+        let result = llenargrupos(data);
+          result.map((elem) =>{
+            auxarr.push(elem);
+          })
+      }
+      setCalcugrupos(auxarr);  
+    }
+   
   }
-  console.log(data);
+  
   function handletotal(data) {
     setStatus(true);
   }
 
+  
+ 
   data.forEach((elementprepa) => {
     elementprepa.alimento.forEach((elementali) => {
       elementali.nutriente.forEach((elementnutri) => {
         elementnutri.grupos = objresultgrup;
       });
     });
-  });
-  console.log(data);
+  });  
+ 
   return (
     <>
    
@@ -186,32 +186,35 @@ const CalculoMenu = () => {
                   <br />
                   <div className="row">
                     {elementAli.nutriente.map((elementNutri) => (
-                      <div className="col s3 m3 text-center">
+                      <div className="col s12 m12 text-center">
                         <div className="row">
                           <ListGroup
                             id={`${elementAli.id}`}
                             className="list-group-flush"
-                          >
+                          
+                          >                      
                             <ListGroupItem>
                               {elementNutri.nutriente
                                 ? elementNutri.nutriente
                                 : "No hay datos"}
                             </ListGroupItem>
-                            <ListGroupItem>
+                            <div className="col s12 m12 text-center">
+                            <div className="row">
+                            
                               {calcugrupos.length > 0
                                 ? calcugrupos.map((element) =>(
-                                   
+                               
                                       elementNutri.nutriente ===
                                       element.nutriente &&
                                       elementAli.alimento ===
                                       element.alimento
                                         ? element.grupo
                                         : ""
-                                    
+                                 
                                 ))
                                 : "no hay alimentos"}
-                            </ListGroupItem>
-                            <ListGroupItem>
+                            
+                            
                               {calcugrupos.length > 0
                                 ? calcugrupos.map((element) =>
                                    
@@ -223,7 +226,9 @@ const CalculoMenu = () => {
                                    
                                   )
                                 : "no hay alimentos"}
-                            </ListGroupItem>
+                            
+                            </div>
+                            </div>
                           </ListGroup>
                         </div>
                       </div>
@@ -258,6 +263,7 @@ const CalculoMenu = () => {
       {status && (
         <TotalCalculo
           paramas={data}
+          calculo={calcugrupos}
           id={id}
           status={status}
           grupoCal={grupo}

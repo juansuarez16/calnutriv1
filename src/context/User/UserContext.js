@@ -6,8 +6,7 @@ export function UserContext({ children }) {
   const [login, setLogin] = useState(() =>
     window.sessionStorage.getItem("login")
   );
-
-  console.log(login);
+  
 
   useEffect(() => {
     if (!login) return setLogin(window.sessionStorage.setItem("login",false))

@@ -1,5 +1,6 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
+import api from "../../api";
 import {
   Button,
   Modal,
@@ -14,13 +15,15 @@ import {
 import axios from "axios";
 import Inputs from "./components/input/inputs";
 import Select from "./components/select";
-import api from "../../api";
-function Createmodal({
-  data, 
+
+const Createmodal = ({
+  data,
   state,
   setState,
   stateEdit,
   setstateEdit,
+  deletedata,
+  setDeleteData,
   stateDelete,
   setstateDelete,
   stateNutriente,
@@ -28,20 +31,22 @@ function Createmodal({
   setstateNutriente,
   setstateDetalleNut,
   addnutri,
-  dataRe
-}) {
-  const [nombre, setNombre] = useState('');
-  const [dataselect, setDataselect] = useState(Array);
-  const [dataselectM, setDataselectM] = useState(Array);
+  dataRe,
+})  =>{
+  const [nombre, setNombre] = useState("");
+  const [dataselect, setDataselect] = useState([]);
+  const [dataselectM, setDataselectM] = useState([]);
   const [modalidad, setModalidad] = useState(-1);
   const [grupoedad, setGrupoEdad] = useState(-1);
   const [norma, setNorma] = useState(-1);
-  const [dataselectN, setDataselectN] = useState(Array);
+  const [dataselectN, setDataselectN] = useState([]);
   const [nutriente, setNutriente] = useState(-1);
-  const [valueAporte, setValueAporte] = useState('');
-  const [dataReNutri, setDataReNutri] = useState(Array);
+  const [valueAporte, setValueAporte] = useState("");
+  const [dataReNutri, setDataReNutri] = useState([]);
   const [stateMEditNutriente, setstateMEditNutriente] = useState(false);
+  const [stateDeleteNutri, setstateDeleteNutri] = useState(false);
   const [stateDEditNutriente, setstateDEditNutriente] = useState({});
+  const [stateDdeleteNutriente, setstateDdeleteNutriente] = useState({});  
   const [dataeditNutri, setDataeditNutri] = useState("");
   const res = async () => {
     const dataA = await api("http://localhost:3000/getModalidadesCal");
@@ -56,101 +61,140 @@ function Createmodal({
     setDataselectN(dataA.data.res);
   };
   const resReco = async () => {
-    const dataA = await api(`http://localhost:3000/getDetalleRecoNutriRela?id=${addnutri.dataId}`);    
+    const dataA = await api(
+      `http://localhost:3000/getDetalleRecoNutriRela?id=${addnutri.dataId}`
+    );
     setDataReNutri(dataA.data.res);
   };
-  console.log(dataReNutri);
+ 
+  
   useEffect(() => {
     res();
     resGrupoE();
-    resNutirente();   
-  }, []);
+    resNutirente();
+  }, [])
+
   useEffect(() => {
     resReco();
-  }, [stateDetalleNut]);
-
-  function handleChange(name,value) {
-    console.log(value);
-      if(name==='nombre'){
-        setNombre(value);       
-      }
-      if(name==='modalidad'){
-        setModalidad(value);       
-      }
-      if(name==='grupoedad'){
-        setGrupoEdad(value);       
-      }
-      if(name==='norma'){
-        setNorma(value);       
-      }
-      if(name==='nutriente'){
-        setNutriente(value);       
-      }
-      if(name==='aporte'){
-        setValueAporte(value);       
-      }
-
-  }
+  }, [addnutri])
   
-  function handleSubmit() {    
-  if (grupoedad>0 && modalidad>0 && nombre !=='' ) {
-    let url = "http://localhost:3000/createRecomendacionesCal";
-        let data={nombre,
-          modalidad,
-          grupoedad,
-          norma};
-      axios.post(url,data).then((res) => {
-        if (res.data.error === 3) {
-            setState(false);
-            
-        } else {
-            setState(false);
-          
-        }
-        console.log(res);
-      });
+  
+
+  function handleChange(name, value) {
+    
+    if (name === "nombre") {
+      setNombre(value);
+    }
+    if (name === "modalidad") {
+      setModalidad(value);
+    }
+    if (name === "grupoedad") {
+      setGrupoEdad(value);
+    }
+    if (name === "norma") {
+      setNorma(value);
+    }
+    if (name === "nutriente") {
+      setNutriente(value);
+    }
+    if (name === "aporte") {
+      setValueAporte(value);
+    }
   }
+
+  function handleSubmit() {
+    if (grupoedad > 0 && modalidad > 0 && nombre !== "") {
+      let url = "http://localhost:3000/createRecomendacionesCal";
+      let data = { nombre, modalidad, grupoedad, norma };
+      axios.post(url, data).then((res) => {
+        if (res.data.error === 3) {
+          setState(false);
+        } else {
+          setState(false);
+        }
+        
+      });
+    }
   }
 
   function handleCreateNutriRelacion(params) {
     let url = "http://localhost:3000/createRecoNutriRela";
-    let data={
+    let data = {
       nutriente,
       valueAporte,
-      dataRe:dataRe.id};
-      console.log(data);
-  axios.post(url,data).then((res) => {
-    if (res.data.error === 3) {
-      setstateNutriente(false);
-        
-    } else {
-      setstateNutriente(false);
-      
-    }
-    console.log(res);
-  });
+      dataRe: dataRe.id,
+    };
+    
+    axios.post(url, data).then((res) => {
+      if (res.data.error === 3) {
+        setstateNutriente(false);
+      } else {
+        setstateNutriente(false);
+      }
+    
+    });
   }
 
-
+  function handleDeletenutriReco(params) {
+   
+  }
+  const handleDeleteReco = (params) =>{
+ 
+    let url = "ubi";
+    let data = { id: params.id };
+    axios.post(url, data).then((res) => {
+      if (res.data.error === 3) {
+        setstateDelete(true);
+      } else {
+        setstateDelete(true);
+      }
+    });
+  }
 
   return (
     <>
       <Modal isOpen={stateDelete}>
         <ModalHeader>
           <div>
-            <h3>Eliminar Categoria</h3>
+            <h3>Eliminar Recomendacion</h3>
           </div>
         </ModalHeader>
 
         <ModalBody>
           <Alert color="danger">
-            Esta seguro que quiere eliminar la categoria?
+            Esta seguro que quiere eliminar la Recomendacion {deletedata.nombre}
+            ?
           </Alert>
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary">Eliminar</Button>
+          <Button color="primary" onClick={handleDeleteReco(deletedata)}>
+            Eliminar
+          </Button>
           <Button color="danger" onClick={() => setstateDelete(false)}>
+            Cancelar
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <Modal isOpen={stateDeleteNutri}>
+        <ModalHeader>
+          <div>
+            <h3>Eliminar Nutriente</h3>
+          </div>
+        </ModalHeader>
+
+        <ModalBody>
+          <Alert color="danger">
+            <p> Esta seguro que quiere eliminar el nutriente {stateDdeleteNutriente.dataNutriente} para la
+            recomendacion ?</p>
+          </Alert>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button color="primary" onClick={handleDeletenutriReco(stateDdeleteNutriente)}>
+            Eliminar
+          </Button>
+          <Button color="danger" onClick={() => setstateDeleteNutri(false)}>
             Cancelar
           </Button>
         </ModalFooter>
@@ -172,15 +216,16 @@ function Createmodal({
 
           <FormGroup>
             <label>Categoria:</label>
-            <Inputs className="form-control" attribute={{
-            id:'categoria',
-            name:'categoria',
-            type:'text',
-            placeholder:'Ingrese categoria',                               
-            }}
-            
-            handleChange = {handleChange}/>
-           
+            <Inputs
+              className="form-control"
+              attribute={{
+                id: "categoria",
+                name: "categoria",
+                type: "text", 
+                placeholder: "Ingrese categoria",
+              }}
+              handleChange={handleChange}
+            />
           </FormGroup>
           <FormGroup>
             <label>Modalidades:</label>
@@ -213,18 +258,20 @@ function Createmodal({
           </div>
         </ModalHeader>
 
-        <ModalBody>          
-
+        <ModalBody>
           <FormGroup>
             <label>Nombre:</label>
 
-            <Inputs className="form-control" attribute={{
-            id:'nombre',
-            name:'nombre',
-            type:'text',
-            placeholder:'Ingrese nombre'
-            }}  
-            handleChange = {handleChange}/>
+            <Inputs
+              className="form-control"
+              attribute={{
+                id: "nombre",
+                name: "nombre",
+                type: "text",
+                placeholder: "Ingrese nombre",
+              }}
+              handleChange={handleChange}
+            />
           </FormGroup>
           <FormGroup>
             <label>Modalidades:</label>
@@ -257,15 +304,17 @@ function Createmodal({
           <FormGroup>
             <label>Norma:</label>
 
-            <Inputs className="form-control" attribute={{
-            id:'norma',
-            name:'norma',
-            type:'text',
-            placeholder:'Ingrese norma'
-            }}  
-            handleChange = {handleChange}/>
+            <Inputs
+              className="form-control"
+              attribute={{
+                id: "norma",
+                name: "norma",
+                type: "text",
+                placeholder: "Ingrese norma",
+              }}
+              handleChange={handleChange}
+            />
           </FormGroup>
-          
         </ModalBody>
 
         <ModalFooter>
@@ -284,13 +333,11 @@ function Createmodal({
           </div>
         </ModalHeader>
 
-        <ModalBody>          
-        <FormGroup>
+        <ModalBody>
+          <FormGroup>
             <label>{dataRe.nombre}</label>
-
-            
           </FormGroup>
-          
+
           <FormGroup>
             <label>Nutriente:</label>
 
@@ -305,26 +352,31 @@ function Createmodal({
               handleChange={handleChange}
             />
           </FormGroup>
-          
+
           <FormGroup>
             <label>Aporte:</label>
 
-            <Inputs className="form-control" attribute={{
-            id:'aporte',
-            name:'aporte',
-            type:'number',
-            placeholder:'Ingrese aporte'
-            }}  
-            handleChange = {handleChange}/>
+            <Inputs
+              className="form-control"
+              attribute={{
+                id: "aporte",
+                name: "aporte",
+                type: "number",
+                placeholder: "Ingrese aporte",
+              }}
+              handleChange={handleChange}
+            />
           </FormGroup>
-          
         </ModalBody>
 
         <ModalFooter>
           <Button color="primary" onClick={handleCreateNutriRelacion}>
             Insertar
           </Button>
-          <Button className="btn btn-danger" onClick={() => setstateNutriente(false)}>
+          <Button
+            className="btn btn-danger"
+            onClick={() => setstateNutriente(false)}
+          >
             Cancelar
           </Button>
         </ModalFooter>
@@ -340,7 +392,7 @@ function Createmodal({
             <Table>
               <thead>
                 <tr>
-                  <th>Id</th>                  
+                  <th>Id</th>
                   <th>Nutriente</th>
                   <th>Valor</th>
                   <th>Acciones</th>
@@ -349,7 +401,7 @@ function Createmodal({
               <tbody>
                 {dataReNutri.map((element) => (
                   <tr>
-                    <td>{element.id}</td>                    
+                    <td>{element.id}</td>
                     <td>{element.nutrientesCal}</td>
                     <td>{element.valor}</td>
                     <td>
@@ -359,7 +411,7 @@ function Createmodal({
                           setstateMEditNutriente(!stateMEditNutriente);
                           setstateDEditNutriente({
                             dataId: element.id,
-                            dataNutriente: element.Nutriente,
+                            dataNutriente: element.nutrientesCal,
                             dataValue: element.valor,
                           });
                         }}
@@ -369,7 +421,14 @@ function Createmodal({
                       {"  "}
                       <Button
                         color="danger"
-                        onClick={() => setstateDelete(!stateDelete)}
+                        onClick={() => {
+                          setstateDeleteNutri(!stateDelete);
+                          setstateDdeleteNutriente({
+                            dataId: element.id,
+                            dataNutriente: element.nutrientesCal,
+                            dataValue: element.valor,
+                          });
+                        }}
                       >
                         Delete
                       </Button>
@@ -409,7 +468,7 @@ function Createmodal({
                 name: "aportenutri",
                 type: "number",
                 placeholder: "Ingrese el valor que aporta este nutriente",
-                value: dataeditNutri
+                value: dataeditNutri,
               }}
               handleChange={handleChange}
             />
@@ -426,7 +485,7 @@ function Createmodal({
             Cancelar
           </Button>
         </ModalFooter>
-      </Modal> 
+      </Modal>
     </>
   );
 }

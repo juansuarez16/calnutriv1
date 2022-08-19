@@ -10,7 +10,7 @@ import {
 import { FiEdit3, FiDelete } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 const Componentes = () => {
-  const [data, setData] = useState(Array);  
+  const [data, setData] = useState([]);  
   const [stateModal,setstateModal]=useState(false);
   const [stateEdit,setstateEdit]=useState(false);
   const [stateDelete,setstateDelete]=useState(false);
@@ -24,7 +24,7 @@ const Componentes = () => {
   useEffect(() => {
     res();    
   }, [stateModal]);
-  console.log(data);
+ 
   return (
     <>
         <Table striped bordered hover responsive>

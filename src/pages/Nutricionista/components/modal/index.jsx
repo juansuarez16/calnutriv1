@@ -23,7 +23,7 @@ function Createmodal({
   setstateDelete,
 }) {
   const [cargo, setCargos] = useState("");
-  const [dataselect, setDataselect] = useState(Array);
+  const [dataselect, setDataselect] = useState([]);
   const [usuario, setUsuario] = useState(-1);
 
   const res = async () => {
@@ -53,7 +53,7 @@ function Createmodal({
         setState(false);
        
       }
-      console.log(res);
+      
     });
   }
 

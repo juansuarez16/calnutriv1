@@ -5,7 +5,7 @@ import { Table, Button, Container } from "reactstrap";
 import { FiEdit3, FiDelete } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 const GruposEtnicos = () => {
-  const [data, setData] = useState(Array);
+  const [data, setData] = useState([]);
   const [stateModal, setstateModal] = useState(false);
   const [stateEdit, setstateEdit] = useState(false);
   const [stateDelete, setstateDelete] = useState(false);
@@ -18,7 +18,7 @@ const GruposEtnicos = () => {
     res();
   }, [stateModal]);
 
-  console.log(data);
+
 
   return (
     <>

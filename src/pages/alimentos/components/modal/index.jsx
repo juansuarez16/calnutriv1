@@ -9,18 +9,15 @@ import {
   ModalFooter,
   Alert,
   Container,
-  Table,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle
+  Table, 
 
 } from "reactstrap";
 import axios from "axios";
 import Inputs from "./components/input/inputs";
 import api from "../../api";
 import Select from "./components/select";
-function Createmodal({
+
+const  Createmodal=({
   data,
   state,
   setState,
@@ -36,13 +33,13 @@ function Createmodal({
   addnutri,
   dateDeletePre,
   setDateDeletePre
-}) {
+})=> {
   const [alimento, setAlimento] = useState("");
-  const [dataselectC, setDataselectC] = useState(Array);
-  const [dataselectF, setDataselectF] = useState(Array);
-  const [dataselectN, setDataselectN] = useState(Array);
-  const [dataselecA, setDataselectA] = useState(Array);
-  const [dataRNA, setDataRNA] = useState(Array);
+  const [dataselectC, setDataselectC] = useState([]);
+  const [dataselectF, setDataselectF] = useState([]);
+  const [dataselectN, setDataselectN] = useState([]);
+  const [dataselecA, setDataselectA] = useState([]);
+  const [dataRNA, setDataRNA] = useState([]);
   const [componentes, setComponentes] = useState(-1);
   const [fuente, setFuentes] = useState(-1);
   const [alimentoSelect, setAlimentoSelect] = useState("");
@@ -50,7 +47,7 @@ function Createmodal({
   const [valor, setValor] = useState("");
   const [stateMEditNutriente, setstateMEditNutriente] = useState(false);
   const [stateDEditNutriente, setstateDEditNutriente] = useState({});
-
+ 
   const resComp = async () => {
     const dataA = await api("http://localhost:3000/getComponentesCal");
     setDataselectC(dataA.data.res);
@@ -75,9 +72,10 @@ function Createmodal({
   };
   const [dataedit, setDataedit] = useState("");
   const [dataeditNutri, setDataeditNutri] = useState("");
+  const [deletenutri, setDeletenutri] = useState(false);
   useEffect(() => {
     resComp();
-    resFuente();
+    resFuente();    
   }, []); 
   useEffect(() => {
     setDataedit(dateEditPre.dataNombre);
@@ -134,8 +132,7 @@ function Createmodal({
         } else {
           setState(false);
           
-        }
-        console.log(res);
+        }        
       });
     }  else if (dataedit !== "" && alimentoSelect !== "") {
       let url = "http://localhost:3000/updateAlimentos";
@@ -151,18 +148,20 @@ function Createmodal({
       });
     }
   }
-  function handleDelete() {
-    let url = "http://localhost:3000/deleteAlimentos";
-    let data =  {data:dateDeletePre.dataId};
+  function handleDelete(params) {    
+    if(Object.entries(params).length != 0){
+      let url = "http://localhost:3000/deleteAlimentos";
+    let data =  {data:params.dataId};
     axios.post(url, data).then((res) => {
       if (res.data.error === 3) {
         setstateDelete(false);
         
       } else {
-        setstateDelete(false);
-       
+        setstateDelete(false);       
       }
     });
+    }
+    
   }
   function handleNutriente() {
    
@@ -173,8 +172,7 @@ function Createmodal({
           setstateNutriente(false);
           
         } else {
-          setstateNutriente(false);
-         
+          setstateNutriente(false);         
         }
       });
     }
@@ -193,8 +191,27 @@ function Createmodal({
         });
      
     }
+    function handleDeleteNutriente(dataDelete) {  
+     
+      if (Object.entries(dataDelete).length != 0) {
+       
+      let url = "http://localhost:3000/deleteNutrientesAlimen";
+      let data = { id:dataDelete.dataId };
+      axios.post(url, data).then((res) => {
+        if (res.data.error === 3) {
+          setDeletenutri(false);
+         
+        } else {
+          setDeletenutri(false);
+          
+        }
+      });
+      }
+      
+    
+    }
   
-  const [dropdown, setDropdown] = useState(false)
+const [dropdown, setDropdown] = useState(false)
 const abrirCerrarDropdown=()=>{
   setDropdown(!dropdown);
 }
@@ -214,8 +231,28 @@ const abrirCerrarDropdown=()=>{
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary" onClick={handleDelete}>Eliminar</Button>
+          <Button color="primary" onClick={()=> handleDelete(dateDeletePre)}>Eliminar</Button>
           <Button color="danger" onClick={() => setstateDelete(false)}>
+            Cancelar
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <Modal isOpen={deletenutri}>
+        <ModalHeader>
+          <div>
+            <h3>Eliminar Nutriente</h3>
+          </div>
+        </ModalHeader>
+
+        <ModalBody>
+          <Alert color="danger">
+            Esta seguro que quiere eliminar el nutriente {stateDEditNutriente.dataNutriente} ? 
+          </Alert>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button color="primary" onClick={()=>handleDeleteNutriente(stateDEditNutriente)}>Eliminar</Button>
+          <Button color="danger" onClick={() => setDeletenutri(false)}>
             Cancelar
           </Button>
         </ModalFooter>
@@ -252,7 +289,7 @@ const abrirCerrarDropdown=()=>{
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary" onClick={handleSubmit}>
+          <Button color="primary" onClick={()=> handleSubmit}>
             Actualizar
           </Button>
           <Button color="danger" onClick={() => setstateEdit(false)}>
@@ -312,7 +349,7 @@ const abrirCerrarDropdown=()=>{
         <ModalFooter>
           
            
-          <Button color="primary" onClick={handleSubmit}>
+          <Button color="primary" onClick={()=>handleSubmit}>
             Insertar
           </Button>
           <Button className="btn btn-danger" onClick={() => setState(false)}>
@@ -416,7 +453,13 @@ const abrirCerrarDropdown=()=>{
                       {"  "}
                       <Button
                         color="danger"
-                        onClick={() => setstateDelete(!stateDelete)}
+                        onClick={() =>{ setDeletenutri(!deletenutri)
+                          setstateDEditNutriente({
+                            dataId: element.id,
+                            dataNutriente: element.Nutriente,
+                            dataValue: element.valor,
+                          });
+                        }}
                       >
                         Delete
                       </Button>

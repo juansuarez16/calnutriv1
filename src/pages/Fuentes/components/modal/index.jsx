@@ -22,7 +22,7 @@ function Createmodal({
 }) {
   const [fuente, setFuente] = useState('');
 
-    console.log(data);
+  
 
   function handleChange(name,value) {
       if(name==='fuente'){
@@ -43,7 +43,6 @@ function Createmodal({
             setState(false);
           
         }
-        console.log(res);
       });
     
   }

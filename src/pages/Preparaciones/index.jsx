@@ -14,7 +14,7 @@ import { FcPlus, FcFinePrint } from "react-icons/fc";
 import { FiEdit3, FiDelete } from "react-icons/fi";
 
 const Preparaciones = () => {
-  const [data, setData] = useState(Array);
+  const [data, setData] = useState([]);
   const [stateModal, setstateModal] = useState(false);
   const [dateEditPre, setDateEditPre] = useState({});
   const [stateAlimento, setstateAlimento] = useState(false);
@@ -36,7 +36,7 @@ const Preparaciones = () => {
     }
   }, [stateEdit, stateDelete]);
 
-  console.log(data);
+
 
   return (
     <>

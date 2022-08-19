@@ -11,18 +11,21 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import Inputs from "./components/input/inputs";
-function Createmodal({
+const  Createmodal = ({
   data, 
   state,
+  datadelete,
+  setDatadelete,
   setState,
   stateEdit,
   setstateEdit,
   stateDelete,
   setstateDelete,
-}) {
+}) =>{
   const [gruposedades, getGruposedades] = useState('');
 
-    console.log(data);
+ 
+   
 
   function handleChange(name,value) {
       if(name==='grupoedad'){
@@ -43,9 +46,23 @@ function Createmodal({
             setState(false);
           
         }
-        console.log(res);
+       
       });
     
+  }
+
+  function handleDeleteGrupo(datadelete) {  
+    let url = "http://localhost:3000/deleteGruposEdades";
+      let data = { id:datadelete.id };
+      axios.post(url, data).then((res) => {
+        if (res.data.error === 3) {
+          setstateDelete(false);
+         
+        } else {
+          setstateDelete(false);
+          
+        }
+      });
   }
 
 
@@ -61,12 +78,12 @@ function Createmodal({
 
         <ModalBody>
           <Alert color="danger">
-            Esta seguro que quiere eliminar el grupo edad?
+            <p>Esta seguro que quiere eliminar el grupo edad  {datadelete.nombre}? </p>
           </Alert>
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary">Eliminar</Button>
+          <Button color="primary" onClick={()=>handleDeleteGrupo(datadelete)}>Eliminar</Button>
           <Button color="danger" onClick={() => setstateDelete(false)}>
             Cancelar
           </Button>

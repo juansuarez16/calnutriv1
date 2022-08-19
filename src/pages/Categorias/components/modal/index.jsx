@@ -22,7 +22,7 @@ function Createmodal({
 }) {
   const [categoria, setCategoria] = useState('');
 
-    console.log(data);
+   
 
   function handleChange(name,value) {
       if(name==='categoria'){
@@ -43,7 +43,6 @@ function Createmodal({
             setState(false);
           
         }
-        console.log(res);
       });
     
   }

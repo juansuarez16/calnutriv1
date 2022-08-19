@@ -6,7 +6,8 @@ import { FiEdit3, FiDelete } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 const GruposEdades = () => {
-  const [data, setData] = useState(Array);
+  const [data, setData] = useState([]);
+  const [datadelete, setDataDelete] = useState([]);
   const [stateModal, setstateModal] = useState(false);
   const [stateEdit, setstateEdit] = useState(false);
   const [stateDelete, setstateDelete] = useState(false);
@@ -17,7 +18,7 @@ const GruposEdades = () => {
   };
   useEffect(() => {
     res();
-  }, [stateModal]);
+  }, [stateModal,stateDelete]);
 
   console.log(data);
 
@@ -47,7 +48,9 @@ const GruposEdades = () => {
                 <RiDeleteBin5Line
                   size={"2rem"}
                   color="red"
-                  onClick={() => setstateDelete(!stateDelete)}
+                  onClick={() => {setstateDelete(!stateDelete)
+                    setDataDelete(element)
+                  }}
                 />
               </td>
             </tr>
@@ -61,6 +64,8 @@ const GruposEdades = () => {
       <Createmodal
         data={data}
         state={stateModal}
+        datadelete={datadelete}
+        setDataDelete={setDataDelete}
         setState={setstateModal}
         stateEdit={stateEdit}
         setstateEdit={setstateEdit}

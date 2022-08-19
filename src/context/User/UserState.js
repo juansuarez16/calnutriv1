@@ -12,7 +12,7 @@ const UserState = (props) =>  {
 
    const getLogin = async(Logeo) =>  {
     const res =  await axios.post("http://localhost:3000/auth",Logeo)
-    console.log(res);
+   
     // dispatch({
     //     type:'login',
     //     payload:res.data

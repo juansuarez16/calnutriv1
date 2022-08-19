@@ -23,7 +23,7 @@ function Createmodal({
   setstateDelete,
 }) {
   const [ciudades, setCiudades] = useState("");
-  const [dataselect, setDataselect] = useState(Array);
+  const [dataselect, setDataselect] = useState([]);
   const [departamento, setDepartamento] = useState(-1);
 
   const res = async () => {
@@ -52,7 +52,6 @@ function Createmodal({
       } else {
         setState(false);       
       }
-      console.log(res);
     });
   }
 

@@ -28,14 +28,14 @@ function Createmodal({
   stateMenuid
   
 }) {  
-  const [dataselectC, setDataselectC] = useState(Array);
-  const [dataselectM, setDataselectM] = useState(Array);
-  const [dataselectL, setDataselectL] = useState(Array);
-  const [dataselectO, setDataselectO] = useState(Array);
-  const [dataselectNutri, setDataselectNutri] = useState(Array);
-  const [dataselectPrepa, setDataselectPrepa] = useState(Array);
-  const [dataselectG, setDataselectG] = useState(Array);
-  const [dataselectMod, setDataselectMod] = useState(Array);
+  const [dataselectC, setDataselectC] = useState([]);
+  const [dataselectM, setDataselectM] = useState([]);
+  const [dataselectL, setDataselectL] = useState([]);
+  const [dataselectO, setDataselectO] = useState([]);
+  const [dataselectNutri, setDataselectNutri] = useState([]);
+  const [dataselectPrepa, setDataselectPrepa] = useState([]);
+  const [dataselectG, setDataselectG] = useState([]);
+  const [dataselectMod, setDataselectMod] = useState([]);
   const [ciudad, setCiudad] = useState(-1);
   const [ordenmenu, setOrdenmenu] = useState(-1);
   const [observaciones, setObservaciones] = useState('');
@@ -139,7 +139,7 @@ function Createmodal({
         setstateRmenuPre(false);
         
       }
-      console.log(res);
+      
     });
   
     

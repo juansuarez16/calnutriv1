@@ -25,11 +25,11 @@ function Createmodal({
 }) {
     
   const [nombreLicitacion, getNombreLicitacion] = useState('');
-  const [dataselect, setDataselect] = useState(Array);
+  const [dataselect, setDataselect] = useState([]);
   const [vigencia, getVigencia] = useState('');
   const [observaciones, getObservaciones] = useState('');
   const [estado, setEstado] = useState(-1);
-  console.log(data);
+  
 
   const res = async () => {
     const dataA = await api("http://localhost:3000/getEstadoCal");
@@ -70,7 +70,7 @@ function handleSubmit() {
           setState(false);
         
       }
-      console.log(res);
+     
     });
   
 }

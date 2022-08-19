@@ -27,7 +27,7 @@ function Createmodal({
   
 }) {
   const [aliasorden, setAliasorden] = useState('');
-  const [dataselectC, setDataselectC] = useState(Array);  
+  const [dataselectC, setDataselectC] = useState([]);  
   const [norden, setNorden] = useState('');  
   const [licitacion, setLicitacion] = useState(-1);
  
@@ -70,7 +70,7 @@ function Createmodal({
       } else {
           setState(false);        
       }
-      console.log(res);
+  
     });
     }
   }

@@ -22,7 +22,7 @@ function Createmodal({
 }) {
   const [componentes, setComponentes] = useState('');
 
-    console.log(data);
+   
 
   function handleChange(name,value) {
       if(name==='componente'){
@@ -43,7 +43,7 @@ function Createmodal({
             setState(false);
           
         }
-        console.log(res);
+      
       });
     
   }

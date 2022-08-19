@@ -32,10 +32,10 @@ function Createmodal({
   dateDetalle
 }) {
   const [preparacion, setpreparacion] = useState('');
-  const [dataRPA, setDataRPA] = useState(Array);
-  const [dataRPreA, setDataRPreA] = useState(Array);
-  const [dataselectC, setDataselectC] = useState(Array);
-  const [dataselectCa, setDataselectCa] = useState(Array);
+  const [dataRPA, setDataRPA] = useState([]);
+  const [dataRPreA, setDataRPreA] = useState([]);
+  const [dataselectC, setDataselectC] = useState([]);
+  const [dataselectCa, setDataselectCa] = useState([]);
   const [categoria, setCategoria] = useState(-1); 
   
   const [dateEditPreAl,setDateEditPreAl]=useState({});
@@ -56,7 +56,7 @@ function Createmodal({
     setDataRPreA(dataA.data.res);
     
   };
-console.log(dataRPreA);
+
 useEffect(() => {
   resPrepAli();
 }, [stateDetalleAlime]);
@@ -93,7 +93,7 @@ function handleSubmit() {
           setState(false);
         
       }
-      console.log(res);
+      
     });
   }
  

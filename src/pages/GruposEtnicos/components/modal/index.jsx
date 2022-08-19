@@ -22,8 +22,7 @@ function Createmodal({
 }) {
   const [gruposetnico, getGruposetnico] = useState('');
 
-    console.log(data);
-
+    
   function handleChange(name,value) {
       if(name==='grupoetnico'){
         getGruposetnico(value);       
@@ -43,7 +42,7 @@ function Createmodal({
             setState(false);
           
         }
-        console.log(res);
+        
       });
     
   }
